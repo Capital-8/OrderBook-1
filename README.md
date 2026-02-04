@@ -9,6 +9,7 @@ Features:
 * Add, cancel, update orders
 
 Requirements:
+* Python 3.8+
 * sortedcontainers
 
 Usage
@@ -68,5 +69,4 @@ quote = {'type' : 'market',
          'quantity' : 6, 
          'trade_id' : 002}
 ```
-
 
