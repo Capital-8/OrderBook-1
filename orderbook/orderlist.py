@@ -28,7 +28,7 @@ class OrderList(object):
         Set self.last as the next order. If there is no next order, stop
         iterating through list.
         '''
-        if self.last == None:
+        if self.last is None:
             raise StopIteration
         else:
             return_value = self.last
@@ -65,13 +65,13 @@ class OrderList(object):
         # remove the Order.
         next_order = order.next_order
         prev_order = order.prev_order
-        if next_order != None and prev_order != None:
+        if next_order is not None and prev_order is not None:
             next_order.prev_order = prev_order
             prev_order.next_order = next_order
-        elif next_order != None: # There is no previous order
+        elif next_order is not None: # There is no previous order
             next_order.prev_order = None
             self.head_order = next_order # The next order becomes the first order in the OrderList after this Order is removed
-        elif prev_order != None: # There is no next order
+        elif prev_order is not None: # There is no next order
             prev_order.next_order = None
             self.tail_order = prev_order # The previous order becomes the last order in the OrderList after this Order is removed
 
@@ -80,7 +80,7 @@ class OrderList(object):
 
         Check to see that the quantity is larger than existing, update the quantities, then move to tail.
         '''
-        if order.prev_order != None: # This Order is not the first Order in the OrderList
+        if order.prev_order is not None: # This Order is not the first Order in the OrderList
             order.prev_order.next_order = order.next_order # Link the previous Order to the next Order, then move the Order to tail
         else: # This Order is the first Order in the OrderList
             self.head_order = order.next_order # Make next order the first
@@ -96,7 +96,7 @@ class OrderList(object):
         self.tail_order = order
 
     def __str__(self):
-        from six.moves import cStringIO as StringIO
+        from io import StringIO
         temp_file = StringIO()
         for order in self:
             temp_file.write("%s\n" % str(order))

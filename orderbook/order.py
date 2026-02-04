@@ -1,5 +1,4 @@
-from decimal import * 
-import time, random
+from decimal import Decimal
 
 class Order(object):
     '''

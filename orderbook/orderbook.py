@@ -1,7 +1,6 @@
 import sys
-import math
-from collections import deque # a faster insert/pop queue
-from six.moves import cStringIO as StringIO
+from collections import deque  # a faster insert/pop queue
+from io import StringIO
 from decimal import Decimal
 
 from .ordertree import OrderTree
@@ -205,27 +204,26 @@ class OrderBook(object):
         return self.asks.max_price()
 
     def tape_dump(self, filename, filemode, tapemode):
-        dumpfile = open(filename, filemode)
-        for tapeitem in self.tape:
-            dumpfile.write('Time: %s, Price: %s, Quantity: %s\n' % (tapeitem['time'],
-                                                                    tapeitem['price'],
-                                                                    tapeitem['quantity']))
-        dumpfile.close()
+        with open(filename, filemode, encoding="utf-8") as dumpfile:
+            for tapeitem in self.tape:
+                dumpfile.write('Time: %s, Price: %s, Quantity: %s\n' % (tapeitem['time'],
+                                                                        tapeitem['price'],
+                                                                        tapeitem['quantity']))
         if tapemode == 'wipe':
-            self.tape = []
+            self.tape = deque(maxlen=None)
 
     def __str__(self):
         tempfile = StringIO()
         tempfile.write("***Bids***\n")
-        if self.bids != None and len(self.bids) > 0:
+        if self.bids is not None and len(self.bids) > 0:
             for key, value in reversed(self.bids.price_map.items()):
                 tempfile.write('%s' % value)
         tempfile.write("\n***Asks***\n")
-        if self.asks != None and len(self.asks) > 0:
+        if self.asks is not None and len(self.asks) > 0:
             for key, value in self.asks.price_map.items():
                 tempfile.write('%s' % value)
         tempfile.write("\n***Trades***\n")
-        if self.tape != None and len(self.tape) > 0:
+        if self.tape is not None and len(self.tape) > 0:
             num = 0
             for entry in self.tape:
                 if num < 10: # get last 5 entries
@@ -235,4 +233,3 @@ class OrderBook(object):
                     break
         tempfile.write("\n")
         return tempfile.getvalue()
-
